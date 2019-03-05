@@ -7,111 +7,114 @@ Deskripsi : Membuat daftar gaji menurut golongan
 */
 
 #include <iostream>
+#include <stdlib.h>
+#include <string.h>
 using namespace std;
 
 struct Pegawai{
-	char nip[20];
-	char nama[30];
-	int gol;
+ char NIP[100];
+ char nama[100];
+ int gol;
+ int gaji;
 };
-typedef Pegawai pegawai[100];
 
-void inputPegawai(pegawai pegawai[100],int n){
-	cout<<"Masukkan banyak pegawai : ";
-	cin>>n;
-	for(int i=0;i<n;i++){
-		cout<<"Masukkan NIP pegawai : ";
-		cin>>pegawai[i].nip;
-		cout<<"Masukkan Nama pegawai : ";
-		getline(cin,pegawai[i].nip);
-		cout<<"Masukkan Golongan pegawai : ";
-		cin>>pegawai[i].gol[i];
-	}
+Pegawai pgwai[20];
+
+void banyakData(int &n){
+ cout<<"Masukkan jumlah pegawai : ";
+ cin>>n;
+}
+void inputPegawai(Pegawai pgwai[],int &n){
+ for (int i=0;i<n;i++){
+        cout << "Masukkan data pegawai " << i+1 << endl;
+        cout << "NIP        : "; cin >> pgwai[i].NIP;
+        cin.ignore();
+        cout << "Nama       : "; fgets(pgwai[i].nama,100,stdin);
+        cout << "Golongan   : "; cin >> pgwai[i].gol;
+        cout << endl;
+    }
 }
 
-void cariGaji(pegawai pegawai[100],int gaji[100],int n){
-	for(int i=0;i<n;i++){
-		if(pegawai.gol==1){
-		gaji[i]=2000000
-		}
-		else if(pegawai.gol==2){
-			gaji[i]=3000000
-		}
-		else if(pegawai.gol==3){
-			gaji[i]=5000000
-		}
-		else(pegawai.gol==4){
-			gaji[i]=8000000
-		}
-	}
-}
-
-void cetakDaftar(pegawai pegawai[100],int gaji[100],int n){
-	int temp;
-	 pegawai temp;
- 	for(int i=1; i<n; i++){
-        temp = pegawai[i];
-        while(i>0 && pegawai[i-1].nip>temp.nip){
-            pegawai[i] = pegawai[i-1];
+void sortingGol(Pegawai pgwai[], int &n){
+ int i;
+ Pegawai temp;
+ for(i=1; i<n; i++){
+        temp = pgwai[i];
+        while(i>0 && pgwai[i-1].gol>temp.gol){
+            pgwai[i]= pgwai[i-1];
             i = i-1;
         }
-        pegawai[i]= temp;
+        pgwai[i]= temp;
     }
-    for(int i=0;i<n;i++){
-    	cout<<"NIP : "<<pegawai[i].nip;
-    	cout<<"Nama : "<<pegawai[i].nama;
-    	cout<<"Golongan : "<<pegawai[i].gol;
-    	cout<<"Gaji : "<<gaji[i];
-    	cin.ignore();
-	}
 }
 
-void rataGaji(int gaji[100],int n){
-	int jumlah;
-	for(int i=0;i<n;i++){
-		jumlah += gaji[i];
-	}
-	int rata;
-	rata = jumlah/n;
-	cout<<"Rata gaji = "<<rata<<endl;
+void sortingNIP(Pegawai pgwai[], int &n){
+ int i;
+ Pegawai temp;
+ for(i=1; i<n; i++){
+        temp = pgwai[i];
+        while(i>0 && pgwai[i-1].NIP>temp.NIP){
+            pgwai[i] = pgwai[i-1];
+            i = i-1;
+        }
+        pgwai[i]= temp;
+    }
+
 }
 
-void gajiTerendah(int gaji[100],int n){
-	int temp;
-	for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
-			if(gaji[i]<[gaji[j]]){
-				temp = gaji[i];
-				gaji[i] = gaji[j];
-				gaji[j] = temp;
-			}
-		}
-	}
-	cout<<"Pegawai dengan gaji terendah : "<<pegawai[0].nip;
+void cariGaji(Pegawai pgwai[], int &n){
+ for (int i=0; i<n; i++){
+  if (pgwai[i].gol == 1){
+   pgwai[i].gaji=2000000;
+  }
+  else if (pgwai[i].gol== 2){
+   pgwai[i].gaji=3000000;
+  }
+  else if (pgwai[i].gol== 3){
+   pgwai[i].gaji=5000000;
+  }
+  else if (pgwai [i].gol== 4){
+   pgwai[i].gaji=8000000;
+  }
+ }
 }
 
-void gajiTertinggi(int gaji[100],int n){
-	int temp;
-	for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
-			if(gaji[i]>[gaji[j]]){
-				temp = gaji[i];
-				gaji[i] = gaji[j];
-				gaji[j] = temp;
-			}
-		}
-	}
-	cout<<"Pegawai dengan gaji tertinggi : "<<pegawai[0].nip;
+int rataRata (Pegawai pgwai [], int &n, int& rataGaji){
+ int gajiTotal=0;
+ for (int i=0 ; i<n ; i++){
+  gajiTotal= gajiTotal+pgwai[i].gaji;
+ }
+ rataGaji=gajiTotal/n;
+ return(rataGaji);
+}
+
+void outputPegawai (Pegawai pgwai[], int n, int rataGaji){
+    sortingNIP(pgwai,n);
+    cariGaji(pgwai,n);
+    for (int i=0; i<n;i++){
+   cout << "NIP    : " << pgwai[i].NIP << endl;
+   cout << "Nama   : " << pgwai[i].nama << endl;
+   cout << "Gaji   : " << pgwai[i].gaji << endl;
+   cout << endl;
+  }
+    rataRata(pgwai, n, rataGaji);
+    cout << "Rata-rata Gaji Pegawai : " << rataGaji << endl;
+    sortingGol(pgwai, n);
+}
+void gajiTerendah(Pegawai pgwai[], int n){
+    cout<<"Pegawai dengan gaji tertinggi : "<<pgwai[n-1].nama<<endl;
+}
+void gajiTertinggi(Pegawai pgwai[], int n){
+    cout<<"Pegawai dengan gaji terendah : "<<pgwai[0].nama<<endl;
 }
 
 int main(){
-	int gaji[100];
-	pegawai pegawai[100];
-	int n;
-	inputPegawai(pegawai,n);
-	cariGaji(pegawai,gaji,n);
-	cetakDaftar(pegawai,gaji,n);
-	rataGaji(gaji,n);
-	gajiTerendah(gaji,n);
-	gajiTertinggi(gaji,n);
+ int n, rataGaji;
+ banyakData(n);
+ inputPegawai(pgwai,n);
+ system("cls");
+ cout << "DAFTAR PEGAWAI\n";
+    outputPegawai(pgwai, n, rataGaji);
+    gajiTerendah(pgwai,n);
+    gajiTertinggi(pgwai,n);
 }
