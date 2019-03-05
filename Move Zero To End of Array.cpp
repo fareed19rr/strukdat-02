@@ -14,7 +14,6 @@ void moveZeroToEnd(int larik[100],int n){
 	
 	for(int i=0;i<n;i++){
 		if(larik[i]!=0){
-			hitung++;
 			larik[hitung++]=larik[i];		
 		}
 	}
